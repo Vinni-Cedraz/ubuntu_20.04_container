@@ -11,6 +11,7 @@ RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfig
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	make \
+	curl \
 	libc-dev \
 	pkg-config \
 	gdb zsh unzip gzip tar \
@@ -20,6 +21,11 @@ RUN apt-get install -y --no-install-recommends \
 	git \
 	python3-pip \
 	ripgrep
+
+# Install exa
+RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
+RUN unzip exa-linux-x86_64-v0.10.0.zip
+RUN rm -rf exa-linux-x86_64-v0.10.0.zip
 
 RUN ulimit -n 65535
 RUN rm -f /usr/bin/cc
@@ -32,7 +38,6 @@ RUN pip3 install norminette
 RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
 
 # Install Node.js 16
-RUN apt-get install -y curl
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
