@@ -28,8 +28,8 @@ RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
 
 RUN ulimit -n 65535
-RUN rm -f /usr/bin/cc
-RUN ln -s /usr/bin/clang /usr/bin/cc
+# RUN rm -f /usr/bin/cc
+# RUN ln -s /usr/bin/clang /usr/bin/cc
 
 # Install Norminette
 RUN pip3 install norminette
