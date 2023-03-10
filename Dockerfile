@@ -64,7 +64,7 @@ RUN ./install.sh
 
 # Install ft_neovim
 RUN mkdir -p /root/.config/
-RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/ft_neovim.git /root/.config/nvim
+RUN git clone https://github.com/Vinni-Cedraz/ft_neovim.git /root/.config/nvim
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
