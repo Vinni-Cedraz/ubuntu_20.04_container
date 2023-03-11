@@ -10,6 +10,7 @@ RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfig
 # Install utils
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
+	cargo \
 	make \
 	curl \
 	libc-dev \
@@ -24,10 +25,12 @@ RUN apt-get install -y --no-install-recommends \
 	iputils-ping \
 	ripgrep
 
-# Install exa
+# Install custom commands
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
 RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
+RUN cargo install bat
+RUN cargo install tre
 
 # Install Norminette
 RUN pip3 install norminette
