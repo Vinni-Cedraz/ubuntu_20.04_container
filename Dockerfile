@@ -58,7 +58,7 @@ RUN echo 'source /root/powerlevel10k/powerlevel10k.zsh-theme' >> /root/.zshrc
 # Install zsh plugin manager 
 RUN curl -L git.io/antigen > /root/.antigen.zsh
 # Install my dotfiles
-RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles.git
+RUN git clone --branch my_ubuntu_container git@github.com:Vinni-Cedraz/.dotfiles.git
 WORKDIR /root/.dotfiles
 RUN chmod +x install.sh
 RUN ./install.sh
@@ -66,7 +66,7 @@ RUN echo ulimit -n 65535 >> ~/.zshrc
 
 # Install ft_neovim
 RUN mkdir -p /root/.config/
-RUN git clone https://github.com/Vinni-Cedraz/ft_neovim.git /root/.config/nvim
+RUN git clone git@github.com:Vinni-Cedraz/ft_neovim.git /root/.config/nvim
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
