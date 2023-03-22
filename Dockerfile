@@ -7,12 +7,21 @@ RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y tzdata
 RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
+# Set locale to en_US UTF-8
+RUN apt-get install -y locales \
+	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+	locale-gen && \
+	update-locale LANG=en_US.UTF-8 \
+	RUN echo "LANG=en_US.UTF-8" > /etc/default/locale \
+	source /etc/default/locale
+
 # Install utils
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	cargo \
 	make \
 	curl \
+	wget \
 	libc-dev \
 	gcc \
 	g++ \
@@ -22,6 +31,8 @@ RUN apt-get install -y --no-install-recommends \
 	openssh-server \
 	git \
 	python3-pip \
+	pip \
+	python3.10-venv \
 	iputils-ping \
 	ripgrep
 
@@ -29,7 +40,6 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
 RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
-RUN cargo install bat
 RUN cargo install tre
 
 # Install Norminette
@@ -53,12 +63,14 @@ RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appi
 WORKDIR /root
 
 # Install Powerlevel10k
-RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
-RUN echo 'source /root/powerlevel10k/powerlevel10k.zsh-theme' >> /root/.zshrc
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
+RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' >> /root/.zshrc
+
 # Install zsh plugin manager 
 RUN curl -L git.io/antigen > /root/.antigen.zsh
+
 # Install my dotfiles
-RUN git clone --branch my_ubuntu_container git@github.com:Vinni-Cedraz/.dotfiles.git
+RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
 WORKDIR /root/.dotfiles
 RUN chmod +x install.sh
 RUN ./install.sh
@@ -66,12 +78,11 @@ RUN echo ulimit -n 65535 >> ~/.zshrc
 
 # Install ft_neovim
 RUN mkdir -p /root/.config/
-RUN git clone git@github.com:Vinni-Cedraz/ft_neovim.git /root/.config/nvim
+RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory to ~/
 WORKDIR /root
-
 CMD ["/bin/zsh"]
