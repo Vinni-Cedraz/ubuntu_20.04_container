@@ -7,17 +7,10 @@ RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y tzdata
 RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
-# Set locale to en_US UTF-8
-RUN apt-get install -y locales \
-	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
-	locale-gen && \
-	update-locale LANG=en_US.UTF-8 \
-	RUN echo "LANG=en_US.UTF-8" > /etc/default/locale \
-	source /etc/default/locale
-
 # Install utils
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
+	locales \
 	cargo \
 	make \
 	curl \
@@ -64,7 +57,7 @@ WORKDIR /root
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
-RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' >> /root/.zshrc
+RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
 
 # Install zsh plugin manager 
 RUN curl -L git.io/antigen > /root/.antigen.zsh
@@ -75,6 +68,12 @@ WORKDIR /root/.dotfiles
 RUN chmod +x install.sh
 RUN ./install.sh
 RUN echo ulimit -n 65535 >> ~/.zshrc
+
+#configure locale:
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Install ft_neovim
 RUN mkdir -p /root/.config/
