@@ -1,6 +1,6 @@
 ## Instruções:
 
-#### Clone esse repo no seu diretório goingfre
+#### Se vc ta na 42 clone esse repo no seu diretório goinfre
 
 ##### Dentro do diretório do dockerfile execute esses comandos em ordem:
 
