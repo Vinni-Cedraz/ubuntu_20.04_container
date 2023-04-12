@@ -60,7 +60,7 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powe
 RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
 
 # Install zsh plugin manager 
-RUN curl -L git.io/antigen > /root/.antigen.zsh
+RUN curl -L git.io/antigen-nightly > /root/.antigen.zsh
 
 # Install my dotfiles
 RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
