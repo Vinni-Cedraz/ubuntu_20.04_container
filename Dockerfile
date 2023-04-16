@@ -75,6 +75,9 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# Set the terminal to load 256 colors
+ENV TERM xterm-256color
+
 # Install ft_neovim
 RUN mkdir -p /root/.config/
 RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
