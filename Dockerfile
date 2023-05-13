@@ -45,6 +45,7 @@ RUN apt-get install -y nodejs
 
 # create /usr/bin/cc as a symlink to clang-12
 RUN rm -rf /usr/bin/cc
+RUN mkdir /usr/bin/cc
 RUN ln -s /usr/bin/clang /usr/bin/cc
 
 # Download and extract neovim appimage
