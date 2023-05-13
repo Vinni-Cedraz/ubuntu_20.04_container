@@ -17,8 +17,11 @@ RUN apt-get install -y --no-install-recommends \
 	wget \
 	libc-dev \
 	clang-12 \
+	gcc \
+	g++ \
 	pkg-config \
 	gdb zsh unzip gzip tar \
+	valgrind \
 	openssh-server \
 	git \
 	python3-pip \
