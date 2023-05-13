@@ -10,14 +10,13 @@ RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfig
 # Install utils
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
+	clang \
 	locales \
 	cargo \
 	make \
 	curl \
 	wget \
 	libc-dev \
-	gcc \
-	g++ \
 	pkg-config \
 	gdb zsh unzip gzip tar \
 	valgrind \
@@ -45,15 +44,14 @@ RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
-# Download and extract neovim appimage
-RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
-    chmod u+x nvim.appimage && \
-    ./nvim.appimage --appimage-extract && \
-    mv squashfs-root /neovim && \
-    ln -s /neovim/usr/bin/nvim /usr/bin/nvim
-
 # Set the working directory
 WORKDIR /root
+# Download and extract neovim appimage
+RUN wget https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.tar.gz && \
+	tar -xvf nvim-linux64.tar.gz && \
+	rm nvim-linux64.tar.gz && \
+	mv nvim-linux64 /root/.local/nvim && \
+	echo 'PATH=$PATH:/root/.local/nvim/' >> /root/.zshrc
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
