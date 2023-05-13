@@ -50,8 +50,8 @@ WORKDIR /root
 RUN wget https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.tar.gz && \
 	tar -xvf nvim-linux64.tar.gz && \
 	rm nvim-linux64.tar.gz && \
-	mv nvim-linux64 /root/.local/nvim && \
-	echo 'PATH=$PATH:/root/.local/nvim/' >> /root/.zshrc
+	mv nvim-linux64 nvim && \
+	echo 'PATH=$PATH:/root/nvim/' >> ~/.zshrc
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
