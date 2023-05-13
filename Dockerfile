@@ -16,11 +16,9 @@ RUN apt-get install -y --no-install-recommends \
 	curl \
 	wget \
 	libc-dev \
-	gcc \
-	g++ \
+	clang-12 \
 	pkg-config \
 	gdb zsh unzip gzip tar \
-	valgrind \
 	openssh-server \
 	git \
 	python3-pip \
@@ -44,6 +42,10 @@ RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
 # Install Node.js 16
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
+
+# create /usr/bin/cc as a symlink to clang-12
+rm /usr/bin/cc
+ln - s /usr/bin/clang /usr/bin/cc
 
 # Download and extract neovim appimage
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
