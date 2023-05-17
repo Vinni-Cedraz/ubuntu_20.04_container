@@ -44,21 +44,15 @@ RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
-# create /usr/bin/cc as a symlink to clang-12
-RUN rm /usr/bin/cc
-RUN ln -s /usr/bin/clang-12 /usr/bin/cc
 
-# create fix 
-RUN touch /root/run_me_after_nvim.sh
-RUN echo '#!/bin/bash\n\n# Define the file \
-path\nfile_path=~/.local/share/nvim/lazy/nvim-cmp/lua/cmp/view/ghost_text_view.lua\n\n# \
-Check if the text "c.hl_group" is present in line 40 of the file\nif grep -q \
-"c.hl_group" $file_path; then\n  # Delete the 40th line of the file\n  sed -i \
-"40d" $file_path\n\n  # Output confirmation message\n  echo "The 40th line of \
-$file_path containing '\''c.hl_group'\'' has been deleted."\nelse\n  # Output \
-message if the text is not found\n  echo "The text '\''c.hl_group'\'' was not \
-found in line 40 of $file_path."\nfi\n' > /root/run_me_after_nvim.sh
-RUN chmod +x /root/run_me_after_nvim.sh
+# give proper names to the compiler's binaries and create the necessary symlinks
+RUN mv /usr/bin/clang-12 /usr/bin/clang
+RUN mv /usr/bin/clang++-12 /usr/bin/clang++
+RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
+RUN rm /usr/bin/cc
+RUN ln -s /usr/bin/clang /usr/bin/cc
+RUN ln -s /usr/bin/clang++ /usr/bin/c++
+RUN ln -s /usr/bin/clang++ /usr/bin/g++
 
 # Download and extract neovim appimage
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
