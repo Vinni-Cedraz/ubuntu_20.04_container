@@ -1,5 +1,6 @@
 FROM ubuntu:22.04
 
+COPY id_rsa.pub /root/.ssh/authorized_keys
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
 
@@ -19,6 +20,7 @@ RUN apt-get install -y --no-install-recommends \
 	clang-12 \
 	pkg-config \
 	gdb zsh unzip gzip tar \
+	libreadline-dev \
 	valgrind \
 	openssh-server \
 	git \
@@ -39,6 +41,7 @@ RUN pip3 install norminette
 
 # Generate SSH key pair
 RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
+EXPOSE 22
 
 # Install Node.js 16
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
@@ -69,7 +72,7 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powe
 RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
 
 # Install zsh plugin manager 
-RUN curl -L git.io/antigen-nightly > /root/.antigen.zsh
+RUN curl -L git.io/antigen > /root/.antigen.zsh
 
 # Install my dotfiles
 RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
