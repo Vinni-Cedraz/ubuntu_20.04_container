@@ -43,6 +43,15 @@ RUN pip3 install norminette
 RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
 EXPOSE 22
 
+# Configure ssh
+WORKDIR /etc/ssh/
+RUN sed -i 's/#   ForwardX11 no/ForwardX11 yes/g' ssh_config
+RUN sed -i 's/#   ForwardX11Trusted yes/ForwardX11Trusted yes/g' ssh_config
+RUN sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication no/g' ssh_config
+RUN sed -i 's/#Port 22/Port 22/g' sshd_config
+RUN sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' sshd_config
+RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' sshd_config
+
 # Install Node.js 16
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
