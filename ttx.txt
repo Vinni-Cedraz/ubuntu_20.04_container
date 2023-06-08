@@ -1,6 +1,0 @@
-(ssh_config)
-ForwardX11 yes
-PasswordAuthentication yes
-Port 22
-ListenAddress 0.0.0.0
-PermitRootLogin yes
