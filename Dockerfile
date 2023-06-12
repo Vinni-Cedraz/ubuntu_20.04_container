@@ -35,6 +35,7 @@ RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x8
 RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
 RUN cargo install tre
+RUN pip install compiledb
 
 # Install Norminette
 RUN pip3 install norminette
