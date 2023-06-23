@@ -66,12 +66,11 @@ RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' sshd_config
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
-
 # give proper names to the compiler's binaries and create the necessary symlinks
 RUN mv /usr/bin/clang-12 /usr/bin/clang
 RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
-RUN rm /usr/bin/cc
+RUN rm -f /usr/bin/cc
 RUN ln -s /usr/bin/clang /usr/bin/cc
 RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
