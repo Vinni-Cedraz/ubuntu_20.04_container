@@ -12,19 +12,25 @@ RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfig
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
-	cargo \
+	cmake \
+	ninja-build \
 	make \
 	curl \
 	wget \
 	libc-dev \
+	libgtk-3-dev \
+	liblzma-dev \
 	clang-12 \
 	pkg-config \
 	gdb zsh unzip gzip tar \
 	libreadline-dev \
+	libglu1-mesa \
 	valgrind \
 	openssh-server \
 	git \
+	file \
 	python3-pip \
+	xz-utils \
 	pip \
 	python3.10-venv \
 	iputils-ping \
@@ -34,7 +40,10 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
 RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
-RUN cargo install tre
+RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN tar xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN mv tree ~/.local/bin
 RUN pip install compiledb
 
 # Install Norminette
@@ -80,6 +89,13 @@ WORKDIR /root
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
 RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
+
+# flutter sdk setup
+RUN wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.10.5-stable.tar.xz
+RUN tar xf flutter_linux_3.10.5-stable.tar.xz
+RUN echo 'PATH="$PATH:/root/flutter/bin"' >> /root/.zshrc #add flutter to path
+RUN flutter precache #download flutter sdk
+RUN flutter doctor > doctor.log
 
 # Install zsh plugin manager 
 RUN curl -L git.io/antigen > /root/.antigen.zsh
