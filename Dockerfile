@@ -43,7 +43,7 @@ RUN rm -rf exa-linux-x86_64-v0.10.0.zip
 RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN tar xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
-RUN mv tree ~/.local/bin
+RUN mv tree /usr/bin
 RUN pip install compiledb
 
 # Install Norminette
