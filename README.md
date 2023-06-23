@@ -4,13 +4,13 @@
 
 ##### Dentro do diretório do dockerfile execute esses comandos em ordem:
 
-- 0 -> `docker build -t my_ubuntu_image .`
+- 0 -> `docker build `-t my_ubuntu_image.``
 - 1 -> `docker run -it --name my_ubuntu_container my_ubuntu_image`
 - 2 -> a sessão vai abrir, configure o powerlevel 10k seguindo as instruções que aparecem na tela e depois disso saia do container digitando `exit` no terminal dele
 - 3 -> `docker start my_ubuntu_container`
 
 * agora seu container está criado e inicializado, para abrir ele e continuar de onde parou execute:
--> `docker exec -it my_ubuntu_container /bin/zsh`
+-> `docker exec -it my_ubuntu_container zsh`
 
 * para sair:
 -> `exit`

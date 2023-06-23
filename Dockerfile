@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-COPY id_rsa.pub /root/.ssh/authorized_keys
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
 
@@ -12,7 +11,6 @@ RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && dpkg-reconfig
 RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
-	cargo \
 	make \
 	curl \
 	wget \
@@ -34,14 +32,17 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
 RUN unzip exa-linux-x86_64-v0.10.0.zip
 RUN rm -rf exa-linux-x86_64-v0.10.0.zip
-RUN cargo install tre
-
-# Install Norminette
+RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
+RUN mv tree /usr/bin                     
 RUN pip3 install norminette
+RUN pip3 install compiledb
 
 # Generate SSH key pair
-RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rs
+RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 EXPOSE 22
+COPY id_rsa.pub /root/.ssh/authorized_keys
 
 # Configure ssh
 WORKDIR /etc/ssh/
@@ -52,16 +53,11 @@ RUN sed -i 's/#Port 22/Port 22/g' sshd_config
 RUN sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' sshd_config
 RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' sshd_config
 
-# Install Node.js 16
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-
-
 # give proper names to the compiler's binaries and create the necessary symlinks
 RUN mv /usr/bin/clang-12 /usr/bin/clang
 RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
-RUN rm /usr/bin/cc
+RUN rm -f /usr/bin/cc
 RUN ln -s /usr/bin/clang /usr/bin/cc
 RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
@@ -102,6 +98,12 @@ ENV TERM xterm-256color
 # Install ft_neovim
 RUN mkdir -p /root/.config/
 RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
+
+# Install NVM and Node.js 16
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && nvm install 16 \
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
