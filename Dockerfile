@@ -103,7 +103,7 @@ RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
     && export NVM_DIR="$HOME/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install 16 \
+    && nvm install 16
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
