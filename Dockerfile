@@ -21,6 +21,7 @@ RUN apt-get install -y --no-install-recommends \
 	libreadline-dev \
 	valgrind \
 	openssh-server \
+	xz-utils \
 	git \
 	python3-pip \
 	pip \
