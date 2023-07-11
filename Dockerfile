@@ -101,10 +101,10 @@ RUN mkdir -p /root/.config/
 RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
 
 # Install NVM and Node.js 16
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
-    && export NVM_DIR="$HOME/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install 16
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# Set Zsh as the default shell
+SHELL ["/bin/zsh", "-c"]
+RUN source ~/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
