@@ -22,3 +22,10 @@ Por fim, se por algum motivo quiser excluir tudo execute esses comandos aqui em 
 `docker stop my_ubuntu_container`
 `docker rm my_ubuntu_container`
 `docker system prune -a --force --volumes`
+
+##IMPORTANTE:
+dentro do .zshrc (pode ser acessado simplesmente com o alias zshrc) voce precisa mudar as configuirações que estão na seção do header da 42 pra usar com os seus dados:
+```# 42 header:
+export USER='vcedraz-'
+export MAIL='vcedraz-@student.42sp.org.br'
+#42 header end;```
