@@ -25,7 +25,7 @@ Por fim, se por algum motivo quiser excluir tudo execute esses comandos aqui em 
 
 ##IMPORTANTE:
 dentro do .zshrc (pode ser acessado simplesmente com o alias zshrc) voce precisa mudar as configuirações que estão na seção do header da 42 pra usar com os seus dados:
-`# 42 header:
+``# 42 header:
 export USER='vcedraz-'
 export MAIL='vcedraz-@student.42sp.org.br'
-#42 header end;`
+#42 header end;``
