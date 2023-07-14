@@ -1,5 +1,12 @@
 FROM ubuntu:22.04
 
+# Add environment variables needed for GUI apps 
+ARG DISPLAY
+ENV DISPLAY=$DISPLAY
+
+ARG XDG_RUNTIME_DIR
+ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
 
