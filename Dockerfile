@@ -27,7 +27,18 @@ RUN apt-get install -y --no-install-recommends \
 	pip \
 	python3.10-venv \
 	iputils-ping \
-	ripgrep
+	ripgrep \
+	kcachegrind \
+	dbus-x11
+
+# Add environment variables needed for GUI apps 
+ARG DISPLAY
+ENV DISPLAY=$DISPLAY
+
+ARG XDG_RUNTIME_DIR
+ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+
+RUN export $(dbus-launch)
 
 # Install custom commands
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
