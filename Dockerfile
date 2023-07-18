@@ -28,6 +28,7 @@ RUN apt-get install -y --no-install-recommends \
 	python3.10-venv \
 	iputils-ping \
 	ripgrep \
+	graphviz \
 	kcachegrind \
 	dbus-x11
 
@@ -37,8 +38,6 @@ ENV DISPLAY=$DISPLAY
 
 ARG XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
-
-RUN export $(dbus-launch)
 
 # Install custom commands
 RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
@@ -56,16 +55,8 @@ RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 EXPOSE 22
 COPY id_rsa.pub /root/.ssh/authorized_keys
 
-# Configure ssh
-WORKDIR /etc/ssh/
-RUN sed -i 's/#   ForwardX11 no/ForwardX11 yes/g' ssh_config
-RUN sed -i 's/#   ForwardX11Trusted yes/ForwardX11Trusted yes/g' ssh_config
-RUN sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication no/g' ssh_config
-RUN sed -i 's/#Port 22/Port 22/g' sshd_config
-RUN sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' sshd_config
-RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' sshd_config
-
-# give proper names to the compiler's binaries and create the necessary symlinks
+# This ensures you are compiling your C code with the same compiler we have in
+# 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
 RUN mv /usr/bin/clang-12 /usr/bin/clang
 RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
