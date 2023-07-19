@@ -17,6 +17,8 @@ RUN apt-get install -y --no-install-recommends \
 	libc-dev \
 	clang-12 \
 	pkg-config \
+	openssh-client \
+	dbus-x11 \
 	gdb zsh unzip gzip tar \
 	libreadline-dev \
 	valgrind \
