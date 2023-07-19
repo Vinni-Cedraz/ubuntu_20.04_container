@@ -12,6 +12,7 @@ RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
 	make \
+	curl \
 	wget \
 	libc-dev \
 	clang-12 \
@@ -70,7 +71,7 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powe
 RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
 
 # Install zsh plugin manager 
-RUN wget  git.io/antigen > /root/.antigen.zsh
+RUN wget git.io/antigen -O ~/.antigen.zsh
 
 # Install my dotfiles
 RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
