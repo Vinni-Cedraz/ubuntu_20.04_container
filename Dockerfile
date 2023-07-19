@@ -12,7 +12,6 @@ RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
 	make \
-	curl \
 	wget \
 	libc-dev \
 	clang-12 \
@@ -20,17 +19,12 @@ RUN apt-get install -y --no-install-recommends \
 	gdb zsh unzip gzip tar \
 	libreadline-dev \
 	valgrind \
-	openssh-server \
-	xz-utils \
 	git \
 	python3-pip \
 	pip \
 	python3.10-venv \
 	iputils-ping \
 	ripgrep \
-	graphviz \
-	kcachegrind \
-	dbus-x11
 
 # Add environment variables needed for GUI apps 
 ARG DISPLAY
@@ -40,9 +34,9 @@ ARG XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
 
 # Install custom commands
-RUN curl -LO https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
-RUN unzip exa-linux-x86_64-v0.10.0.zip
-RUN rm -rf exa-linux-x86_64-v0.10.0.zip
+RUN wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
+RUN unzip exa-*.zip
+RUN rm -rf exa-linux-x86_64-v0.10.1.zip
 RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
@@ -66,7 +60,7 @@ RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
 
 # Download and extract neovim appimage
-RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
+RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
     chmod u+x nvim.appimage && \
     ./nvim.appimage --appimage-extract && \
     mv squashfs-root /neovim && \
@@ -80,7 +74,7 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powe
 RUN echo 'source /root/.powerlevel10k/powerlevel10k.zsh-theme' > /root/.zshrc
 
 # Install zsh plugin manager 
-RUN curl -L git.io/antigen > /root/.antigen.zsh
+RUN wget  git.io/antigen > /root/.antigen.zsh
 
 # Install my dotfiles
 RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
@@ -102,8 +96,8 @@ ENV TERM xterm-256color
 RUN mkdir -p /root/.config/
 RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
 
-# Install NVM and Node.js 16
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# Install NVM and Node.js 16 
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # Set Zsh as the default shell
 SHELL ["/bin/zsh", "-c"]
 RUN source ~/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
