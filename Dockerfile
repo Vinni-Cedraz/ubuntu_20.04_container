@@ -24,7 +24,7 @@ RUN apt-get install -y --no-install-recommends \
 	pip \
 	python3.10-venv \
 	iputils-ping \
-	ripgrep \
+	ripgrep
 
 # Add environment variables needed for GUI apps 
 ARG DISPLAY
@@ -45,10 +45,6 @@ RUN pip3 install norminette
 RUN pip3 install compiledb
 
 # Generate SSH key pair
-RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
-EXPOSE 22
-COPY id_rsa.pub /root/.ssh/authorized_keys
-
 # This ensures you are compiling your C code with the same compiler we have in
 # 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
 RUN mv /usr/bin/clang-12 /usr/bin/clang
