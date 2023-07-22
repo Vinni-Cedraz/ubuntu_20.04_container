@@ -12,7 +12,6 @@ RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
 	make \
-	curl \
 	wget \
 	libc-dev \
 	clang-12 \
