@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM node:16
 
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
@@ -12,7 +12,6 @@ RUN apt install fd-find
 RUN apt-get install -y --no-install-recommends \
 	locales \
 	make \
-	curl \
 	wget \
 	libc-dev \
 	clang-12 \
@@ -95,15 +94,8 @@ ENV TERM xterm-256color
 RUN mkdir -p /root/.config/
 RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
 
-# Install NVM and Node.js 16 
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-# Set Zsh as the default shell
-SHELL ["/bin/zsh", "-c"]
-RUN source ~/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
-
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory to ~/
-WORKDIR /root
+# start it up with zsh
 CMD ["/bin/zsh"]
