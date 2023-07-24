@@ -94,10 +94,6 @@ ENV LC_ALL en_US.UTF-8
 # Set the terminal to load 256 colors
 ENV TERM xterm-256color
 
-# Install ft_neovim
-RUN mkdir -p /root/.config/
-RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
-
 # Install NVM and Node.js 16 
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # Set Zsh as the default shell
@@ -106,6 +102,13 @@ RUN source ~/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourc
 
 # Clean up APT cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install ft_neovim
+RUN mkdir -p /root/.config/
+RUN git clone https://github.com/Vinni-Cedraz/ft_neovim /root/.config/nvim
+RUN nvim --headless -c "lua require("init.lua")" -c "qall!"
+RUN nvim --headless -c "lua require("plugins.treesitter")" -c "qall!"
+RUN nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
 
 # Set working directory to ~/
 WORKDIR /root
