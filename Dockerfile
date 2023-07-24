@@ -26,6 +26,7 @@ RUN apt-get install -y --no-install-recommends \
 	pip \
 	python3-venv \
 	iputils-ping \
+	xclip \
 	ripgrep
 
 # Add environment variables needed for GUI apps 
