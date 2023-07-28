@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
@@ -27,7 +27,6 @@ RUN apt-get install -y --no-install-recommends \
 	python3-venv \
 	iputils-ping \
 	xclip \
-	git-filter-repo \
 	ripgrep
 
 # Add environment variables needed for GUI apps 
@@ -69,9 +68,9 @@ RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 # Set the working directory
 WORKDIR /root
 
-# # gdb-dashboard
-# RUN wget -P ~ https://git.io/.gdbinit
-# RUN pip install pygments
+# GDB-dashboard
+RUN wget -P ~ https://git.io/.gdbinit
+RUN pip install pygments
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/.powerlevel10k
