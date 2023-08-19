@@ -13,6 +13,7 @@ RUN apt-get install -y --no-install-recommends \
 	locales \
 	make \
 	wget \
+	curl \
 	libc-dev \
 	clang-12 \
 	pkg-config \
@@ -20,6 +21,7 @@ RUN apt-get install -y --no-install-recommends \
 	dbus-x11 \
 	gdb zsh unzip gzip tar \
 	libreadline-dev \
+	libxext-dev libx11-dev \
 	valgrind \
 	git \
 	python3-pip \
@@ -55,6 +57,7 @@ RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
 RUN rm -f /usr/bin/cc
 RUN ln -s /usr/bin/clang /usr/bin/cc
+RUN ln -s /usr/bin/clang /usr/bin/gcc
 RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
 
