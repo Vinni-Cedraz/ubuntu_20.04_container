@@ -27,6 +27,17 @@ Pra fazer isso vc poder adicionar essa linha aqui no seu .zshrc:
 * para entrar (apos colocar o alias):
 `ubuntu_exec`
  
+## MLX E OUTRAS APLICACOES GRAFICAS
+* Se vc estiver buildando esse container na 42 essas coisas ja estarao funcionando automaticamente.
+** Fora da 42 talvez vc precise executar `xhost +local:docker`, eu sugiro deixar isso automatico no seu .zshrc(ou .bashrc ou .config/fish/config.fish dependendo do seu shell)
+** Para usar mlx dentro do container vc precisa ter a mlx instalada na maquina do host (na 42 isso ja ta certinho) nos 
+diretorios especificos:
+```
+/usr/local/lib/libmlx.a,
+/usr/local/include/mlx.h
+/usr/local/share/man/man3/mlx.3
+```
+
 ## IMPORTANTE:
 dentro do .zshrc do container (que pode ser acessado simplesmente com o alias
 zshrc) voce precisa mudar as configuirações que estão na seção do header da 42
