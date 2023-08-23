@@ -72,20 +72,17 @@ ARG DISPLAY
 ENV DISPLAY=$DISPLAY
 ARG XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+ARG _USER
+ARG _USER_HOME
 
-ENV USER=root
-ENV USER_HOME=/root
-
-# Check ownership of host's XDG_RUNTIME_DIR and create non-root user if needed
-RUN if [ $(stat -c %u /run/user/.) != 0 ]; then \
+# and create non-root user if needed
+RUN if [ "$_USER" == "myuser"]; then \
         useradd -m -G sudo -s /bin/zsh myuser && \
         echo "myuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
-        USER="myuser"; \
-		USER_HOME="/home/myuser"; \
     fi
 
-USER $USER
-WORKDIR $USER_HOME
+USER $_USER
+WORKDIR $_USER_HOME
 
 # Install ft_neovim
 RUN mkdir -p .config/
@@ -120,7 +117,7 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | 
 SHELL ["/bin/zsh", "-c"]
 RUN source $HOME/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
 
-RUN if [ "$USER" = "myuser" ]; then \
+RUN if [ "$_USER" = "myuser" ]; then \
         su root; \
 		apt-get clean && rm -rf /var/lib/apt/lists/*; \
 	else \
