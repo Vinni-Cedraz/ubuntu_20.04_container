@@ -14,6 +14,7 @@ RUN apt-get install -y --no-install-recommends \
 	make \
 	wget \
 	curl \
+	clangd \
 	sudo \
 	libc-dev \
 	clang-12 \
