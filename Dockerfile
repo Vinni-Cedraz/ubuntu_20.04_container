@@ -39,17 +39,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# Add environment variables needed for GUI apps 
-ARG DISPLAY
-ENV DISPLAY=$DISPLAY
-
-ARG XDG_RUNTIME_DIR
-ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
-
-# Create a non-root user with a home directory and add to sudo group
-RUN useradd -m -G sudo -s /bin/zsh myuser && \
-    echo "myuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 # Install custom commands
 RUN wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
 RUN unzip exa-*.zip
@@ -61,8 +50,7 @@ RUN mv tree /usr/bin
 RUN pip3 install norminette
 RUN pip3 install compiledb
 
-# This ensures you are compiling your C code with the same compiler we have in
-# 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
+# This ensures you are compiling your C code with the same compiler we have in 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
 RUN mv /usr/bin/clang-12 /usr/bin/clang
 RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
@@ -77,12 +65,27 @@ RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
     chmod u+x nvim.appimage && \
     ./nvim.appimage --appimage-extract && \
     mv squashfs-root /neovim && \
-    ln -s /neovim/usr/bin/nvim /usr/bin/nvim
+	ln -s /neovim/usr/bin/nvim /usr/bin/nvim
 
-# Set the working directory to the user's home directory
-WORKDIR /home/myuser
-# Switch to the non-root user
-USER myuser
+# Add environment variables needed for GUI apps 
+ARG DISPLAY
+ENV DISPLAY=$DISPLAY
+ARG XDG_RUNTIME_DIR
+ENV XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+
+ENV USER=root
+ENV USER_HOME=/root
+
+# Check ownership of host's XDG_RUNTIME_DIR and create non-root user if needed
+RUN if [ $(stat -c %u /run/user/.) != 0 ]; then \
+        useradd -m -G sudo -s /bin/zsh myuser && \
+        echo "myuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
+        USER="myuser"; \
+		USER_HOME="/home/myuser"; \
+    fi
+
+USER $USER
+WORKDIR $USER_HOME
 
 # Install ft_neovim
 RUN mkdir -p .config/
@@ -102,12 +105,11 @@ RUN echo "source .powerlevel10k/powerlevel10k.zsh-theme" > .zshrc
 # Install zsh plugin manager 
 RUN wget git.io/antigen -O .antigen.zsh
 
-# Install my dotfiles
+# INSTALL MY ZSH SETTINGS
 RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
-WORKDIR /home/myuser/.dotfiles
-RUN chmod +x install.sh
-RUN ./install.sh
-RUN echo ulimit -n 65535 >> /home/myuser/.zshrc
+RUN chmod +x .dotfiles/install.sh
+RUN bash .dotfiles/install.sh
+RUN echo ulimit -n 65535 >> ~/.zshrc;
 
 # Set the terminal to load 256 colors
 ENV TERM xterm-256color
@@ -118,11 +120,11 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | 
 SHELL ["/bin/zsh", "-c"]
 RUN source $HOME/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
 
-USER root
-# Clean up APT cache to reduce image size
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN if [ "$USER" = "myuser" ]; then \
+        su root; \
+		apt-get clean && rm -rf /var/lib/apt/lists/*; \
+	else \
+		apt-get clean && rm -rf /var/lib/apt/lists/*; \
+    fi
 
-USER myuser
-# Set working directory to ~/
-WORKDIR /home/myuser
 CMD ["/bin/zsh"]
