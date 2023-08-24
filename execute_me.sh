@@ -1,14 +1,17 @@
 #!/usr/bin/bash
 
-user="root"
-user_home="/root"
+user=root
+user_home=/root
 
-# Check ownership of host's XDG_RUNTIME_DIR 
-if ls -ld "$XDG_RUNTIME_DIR" | grep -q "root"; then
-	# then it means it's not owned by root so we will to create a non-root user
-	# for the container for GUI apps to work correctly!
-    user="myuser"
-    user_home="/home/myuser"
+xdg_runtime_owner_uid=$(stat -c %u $XDG_RUNTIME_DIR)
+
+# Check if the owner's UID is 0 (root)
+if [ "$xdg_runtime_owner_uid" -eq 0 ]; then
+	echo "owner of $XDG_RUNTIME_DIR is root"; 
+else
+    user=myuser
+    user_home=/home/myuser
+	echo "owner of $XDG_RUNTIME_DIR is not root"; 
 fi
 
 docker build  \

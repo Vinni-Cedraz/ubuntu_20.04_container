@@ -76,7 +76,7 @@ ARG _USER
 ARG _USER_HOME
 
 # and create non-root user if needed
-RUN if [ "$_USER" == "myuser"]; then \
+RUN if [ "$_USER" = "myuser" ]; then \
         useradd -m -G sudo -s /bin/zsh myuser && \
         echo "myuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
     fi
@@ -118,8 +118,7 @@ SHELL ["/bin/zsh", "-c"]
 RUN source $HOME/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
 
 RUN if [ "$_USER" = "myuser" ]; then \
-        su root; \
-		apt-get clean && rm -rf /var/lib/apt/lists/*; \
+		sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*; \
 	else \
 		apt-get clean && rm -rf /var/lib/apt/lists/*; \
     fi
