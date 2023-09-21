@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # Update package lists 
 RUN apt-get update -y && apt-get upgrade -y
@@ -30,6 +30,7 @@ RUN apt-get install -y --no-install-recommends \
 	pip \
 	python3-venv \
 	iputils-ping \
+	libcriterion-dev \
 	xclip \
 	ripgrep
 
@@ -90,10 +91,6 @@ RUN git clone --branch=my_ubuntu_container https://github.com/Vinni-Cedraz/ft_ne
 RUN nvim --headless -c "lua require("init.lua")" -c "qall!"
 RUN nvim --headless -c "lua require("plugins.treesitter")" -c "qall!"
 RUN nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
-
-# GDB-dashboard
-RUN wget -P ~ https://git.io/.gdbinit
-RUN pip install pygments
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git .powerlevel10k
