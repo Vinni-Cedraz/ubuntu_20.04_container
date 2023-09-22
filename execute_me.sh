@@ -25,4 +25,4 @@ docker run -it \
 	--mount type=bind,source=/usr/local/lib/libmlx.a,target=/usr/lib/libmlx.a \
 	--mount type=bind,source=/usr/local/include/mlx.h,target=/usr/include/mlx.h \
 	--mount type=bind,source=/usr/local/share/man/man3/mlx.3,target=/usr/man/man3/mlx.3 \
-	--name my_ubuntu_container my_ubuntu_image
+	--name my_ubuntu_container -p 8080:123 my_ubuntu_image \

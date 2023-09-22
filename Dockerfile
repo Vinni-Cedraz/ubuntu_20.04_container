@@ -32,7 +32,10 @@ RUN apt-get install -y --no-install-recommends \
 	iputils-ping \
 	libcriterion-dev \
 	xclip \
-	ripgrep
+	xz-utils \
+	ripgrep \
+	libglfw3 \
+	libglfw3-dev
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
@@ -48,8 +51,14 @@ RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_
 RUN tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN mv tree /usr/bin                     
+
 RUN pip3 install norminette
 RUN pip3 install compiledb
+RUN pip3 install cmake
+
+# GDB-dashboard
+RUN wget -P ~ https://git.io/.gdbinit
+RUN pip install pygments
 
 # This ensures you are compiling your C code with the same compiler we have in 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
 RUN mv /usr/bin/clang-12 /usr/bin/clang
@@ -94,7 +103,7 @@ RUN nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
 
 # Install Powerlevel10k
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git .powerlevel10k
-RUN echo "source .powerlevel10k/powerlevel10k.zsh-theme" > .zshrc
+RUN echo "source ~/.powerlevel10k/powerlevel10k.zsh-theme" > .zshrc
 
 # Install zsh plugin manager 
 RUN wget git.io/antigen -O .antigen.zsh
