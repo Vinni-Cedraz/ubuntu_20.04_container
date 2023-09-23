@@ -33,6 +33,7 @@ RUN apt-get install -y --no-install-recommends \
 	xclip \
 	libglfw3 \
 	libglfw3-dev \
+	libcriterion-dev \
 	ripgrep
 
 #configure locale:
