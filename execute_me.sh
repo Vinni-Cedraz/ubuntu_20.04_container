@@ -1,18 +1,7 @@
 #!/usr/bin/bash
 
-user=root
-user_home=/root
-
-xdg_runtime_owner_uid=$(stat -c %u $XDG_RUNTIME_DIR)
-
-# Check if the owner's UID is 0 (root)
-if [ "$xdg_runtime_owner_uid" -eq 0 ]; then
-	echo "owner of $XDG_RUNTIME_DIR is root"; 
-else
-    user=myuser
-    user_home=/home/myuser
-	echo "owner of $XDG_RUNTIME_DIR is not root"; 
-fi
+user=myuser
+user_home=/home/myuser
 
 sudo docker build  \
 	--build-arg _USER=$user\
@@ -28,4 +17,5 @@ sudo docker run -it \
 	--mount type=bind,source=/usr/local/lib/libmlx.a,target=/usr/lib/libmlx.a \
 	--mount type=bind,source=/usr/local/include/mlx.h,target=/usr/include/mlx.h \
 	--mount type=bind,source=/usr/local/share/man/man3/mlx.3,target=/usr/man/man3/mlx.3 \
+	--mount type=bind,source=${HOME}/MiniRT,target=${user_home}/MiniRT \
 	--name my_ubuntu_container -p 8080:123 my_ubuntu_image
