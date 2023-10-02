@@ -30,11 +30,14 @@ RUN apt-get install -y --no-install-recommends \
 	pip \
 	python3-venv \
 	iputils-ping \
+	libcriterion-dev \
 	xclip \
+	xz-utils \
+	ripgrep \
 	libglfw3 \
 	libglfw3-dev \
-	libcriterion-dev \
-	ripgrep
+	ripgrep \
+	gimp
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
@@ -54,7 +57,10 @@ RUN mv tree /usr/bin
 RUN pip3 install norminette
 RUN pip3 install compiledb
 RUN pip3 install cmake
+RUN pip3 install pygments
 
+# GDB-dashboard
+RUN wget -P ~ https://git.io/.gdbinit
 
 # This ensures you are compiling your C code with the same compiler we have in 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
 RUN mv /usr/bin/clang-12 /usr/bin/clang
