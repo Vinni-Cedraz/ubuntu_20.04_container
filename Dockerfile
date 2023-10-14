@@ -35,7 +35,8 @@ RUN apt-get install -y --no-install-recommends \
 	xz-utils \
 	ripgrep \
 	libglfw3 \
-	libglfw3-dev
+	libglfw3-dev \
+	gimp
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
@@ -52,7 +53,7 @@ RUN tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
 RUN mv tree /usr/bin                     
 
-RUN pip3 install norminette
+RUN pip3 install norminette==3.3.51
 RUN pip3 install compiledb
 RUN pip3 install cmake
 
