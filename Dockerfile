@@ -45,31 +45,28 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Install custom commands
-RUN wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
-RUN unzip exa-*.zip
-RUN rm -rf exa-linux-x86_64-v0.10.1.zip
-RUN wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
-RUN tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
-RUN rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz
-RUN mv tree /usr/bin                     
-
-RUN pip3 install norminette==3.3.51
-RUN pip3 install compiledb
-RUN pip3 install cmake
-
-# GDB-dashboard
-RUN wget -P ~ https://git.io/.gdbinit
-RUN pip install pygments
+RUN wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip \
+	&& unzip exa-*.zip \
+	&& rm -rf exa-linux-x86_64-v0.10.1.zip \
+	&& wget https://github.com/peteretelej/tree/releases/download/0.1.4/tree_0.1.4_x86_64-unknown-linux-musl.tar.gz \
+	&& tar -xvf tree_0.1.4_x86_64-unknown-linux-musl.tar.gz \
+	&& rm -f tree_0.1.4_x86_64-unknown-linux-musl.tar.gz \
+	&& mv tree /usr/bin                      \
+	&& pip3 install norminette==3.3.51 \
+	&& pip3 install compiledb \
+	&& pip3 install cmake \
+	&& wget -P ~ https://git.io/.gdbinit \
+	&& pip install pygments
 
 # This ensures you are compiling your C code with the same compiler we have in 42's workspaces (clang-12) and that you will be using it when you compile with "cc"
-RUN mv /usr/bin/clang-12 /usr/bin/clang
-RUN mv /usr/bin/clang++-12 /usr/bin/clang++
-RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
-RUN rm -f /usr/bin/cc
-RUN ln -s /usr/bin/clang /usr/bin/cc
-RUN ln -s /usr/bin/clang /usr/bin/gcc
-RUN ln -s /usr/bin/clang++ /usr/bin/c++
-RUN ln -s /usr/bin/clang++ /usr/bin/g++
+RUN mv /usr/bin/clang-12 /usr/bin/clang \
+	&& mv /usr/bin/clang++-12 /usr/bin/clang++ \
+	&& mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp \
+	&& rm -f /usr/bin/cc \
+	&& ln -s /usr/bin/clang /usr/bin/cc \
+	&& ln -s /usr/bin/clang /usr/bin/gcc \
+	&& ln -s /usr/bin/clang++ /usr/bin/c++ \
+	&& ln -s /usr/bin/clang++ /usr/bin/g++
 
 # Download and extract neovim appimage
 RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
@@ -96,24 +93,24 @@ USER $_USER
 WORKDIR $_USER_HOME
 
 # Install ft_neovim
-RUN mkdir -p .config/
-RUN git clone --branch=my_ubuntu_container https://github.com/Vinni-Cedraz/ft_neovim .config/nvim
-RUN nvim --headless -c "lua require("init.lua")" -c "qall!"
-RUN nvim --headless -c "lua require("plugins.treesitter")" -c "qall!"
-RUN nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
+RUN mkdir -p .config/ \
+&& git clone --branch=my_ubuntu_container https://github.com/Vinni-Cedraz/ft_neovim .config/nvim \
+&& nvim --headless -c "lua require("init.lua")" -c "qall!" \
+&& nvim --headless -c "lua require("plugins.treesitter")" -c "qall!" \
+&& nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
 
 # Install Powerlevel10k
-RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git .powerlevel10k
-RUN echo "source ~/.powerlevel10k/powerlevel10k.zsh-theme" > .zshrc
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git .powerlevel10k \
+&& echo "source ~/.powerlevel10k/powerlevel10k.zsh-theme" > .zshrc
 
 # Install zsh plugin manager 
 RUN wget git.io/antigen -O .antigen.zsh
 
 # INSTALL MY ZSH SETTINGS
-RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles
-RUN chmod +x .dotfiles/install.sh
-RUN bash .dotfiles/install.sh
-RUN echo ulimit -n 65535 >> ~/.zshrc;
+RUN git clone --branch my_ubuntu_container https://github.com/Vinni-Cedraz/.dotfiles \
+&& chmod +x .dotfiles/install.sh \
+&& bash .dotfiles/install.sh \
+&& echo ulimit -n 65535 >> ~/.zshrc;
 
 # Set the terminal to load 256 colors
 ENV TERM xterm-256color
