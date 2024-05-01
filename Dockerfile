@@ -97,7 +97,7 @@ WORKDIR $_USER_HOME
 
 # Install ft_neovim
 RUN mkdir -p .config/
-RUN git clone --branch=my_ubuntu_container https://github.com/Vinni-Cedraz/ft_neovim .config/nvim
+RUN git clone https://github.com/Vinni-Cedraz/ft_neovim .config/nvim
 RUN nvim --headless -c "lua require("init.lua")" -c "qall!"
 RUN nvim --headless -c "lua require("plugins.treesitter")" -c "qall!"
 RUN nvim --headless -c "lua require("plugins.copilot")" -c "qall!"
