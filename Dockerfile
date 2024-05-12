@@ -118,11 +118,11 @@ RUN echo ulimit -n 65535 >> ~/.zshrc;
 # Set the terminal to load 256 colors
 ENV TERM xterm-256color
 
-# Install NVM and Node.js 16 
+# Install NVM and Node.js 18
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # Set Zsh as the default shell
 SHELL ["/bin/zsh", "-c"]
-RUN source $HOME/.nvm/nvm.sh && nvm install 16 && nvm use 16 # Activate NVM by sourcing the script
+RUN source $HOME/.nvm/nvm.sh && nvm install 18 && nvm use 18 # Activate NVM by sourcing the script
 
 RUN if [ "$_USER" = "myuser" ]; then \
         su root; \
