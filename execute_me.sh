@@ -17,5 +17,6 @@ sudo docker run -it \
 	--mount type=bind,source=/usr/local/lib/libmlx.a,target=/usr/lib/libmlx.a \
 	--mount type=bind,source=/usr/local/include/mlx.h,target=/usr/include/mlx.h \
 	--mount type=bind,source=/usr/local/share/man/man3/mlx.3,target=/usr/man/man3/mlx.3 \
-	--mount type=bind,source=${HOME}/MiniRT,target=${user_home}/MiniRT \
+	--mount type=bind,source=${HOME}/ft_inception,target=${user_home}/ft_inception \
+	--mount type=bind,source=/home/vcedraz-/Downloads/,target=${user_home}/Downloads \
 	--name my_ubuntu_container -p 8080:123 my_ubuntu_image
