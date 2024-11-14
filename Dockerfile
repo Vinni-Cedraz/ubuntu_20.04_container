@@ -27,8 +27,10 @@ RUN apt-get install -y --no-install-recommends \
 	valgrind \
 	git \
 	python3-pip \
-	pip \
+	build-essential \
+	python3-dev \
 	python3-venv \
+	pip \
 	iputils-ping \
 	libcriterion-dev \
 	xclip \
@@ -36,7 +38,6 @@ RUN apt-get install -y --no-install-recommends \
 	ripgrep \
 	libglfw3 \
 	libglfw3-dev \
-	gimp
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
