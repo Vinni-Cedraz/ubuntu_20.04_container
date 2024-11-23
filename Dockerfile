@@ -38,7 +38,7 @@ RUN apt-get install -y --no-install-recommends \
     python3-pip \
     pip \
 	build-essential \
-	python3-dev
+	python3-dev \
     python3-venv \
     iputils-ping \
     libcriterion-dev \
