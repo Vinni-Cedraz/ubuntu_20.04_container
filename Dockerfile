@@ -37,7 +37,7 @@ RUN apt-get install -y --no-install-recommends \
 	xz-utils \
 	ripgrep \
 	libglfw3 \
-	libglfw3-dev \
+	libglfw3-dev
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
