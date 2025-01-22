@@ -23,7 +23,6 @@ RUN apt-get install -y --no-install-recommends \
 	dbus-x11 \
 	gdb zsh unzip gzip tar \
 	libreadline-dev \
-	libxext-dev libx11-dev \
 	valgrind \
 	git \
 	python3-pip \
@@ -32,12 +31,9 @@ RUN apt-get install -y --no-install-recommends \
 	python3-venv \
 	pip \
 	iputils-ping \
-	libcriterion-dev \
 	xclip \
-	xz-utils \
 	ripgrep \
-	libglfw3 \
-	libglfw3-dev
+	netcat
 
 #configure locale:
 RUN locale-gen en_US.UTF-8
@@ -67,8 +63,9 @@ RUN mv /usr/bin/clang-12 /usr/bin/clang
 RUN mv /usr/bin/clang++-12 /usr/bin/clang++
 RUN mv /usr/bin/clang-cpp-12 /usr/bin/clang-cpp
 RUN rm -f /usr/bin/cc
+RUN rm -f /usr/bin/c++
+RUN rm -f /usr/bin/g++
 RUN ln -s /usr/bin/clang /usr/bin/cc
-RUN ln -s /usr/bin/clang /usr/bin/gcc
 RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
 
