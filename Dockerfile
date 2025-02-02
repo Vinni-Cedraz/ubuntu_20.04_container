@@ -70,9 +70,9 @@ RUN ln -s /usr/bin/clang++ /usr/bin/c++
 RUN ln -s /usr/bin/clang++ /usr/bin/g++
 
 # Download and extract neovim appimage
-RUN wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
-    chmod u+x nvim.appimage && \
-    ./nvim.appimage --appimage-extract && \
+RUN wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage && \
+    chmod u+x nvim-linux-x86_64.appimage && \
+    ./nvim-linux-x86_64.appimage --appimage-extract && \
     mv squashfs-root /neovim && \
 	ln -s /neovim/usr/bin/nvim /usr/bin/nvim
 
